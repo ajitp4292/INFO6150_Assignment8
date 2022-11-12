@@ -172,8 +172,11 @@ router.put('/:id',async(req,res)=>{
    
               
               if (passboolean=="TRUE" && fullnameboolean=="TRUE"){
-   const a1= await api.save()
-   res.status(200).json({code:200,message:"User updated Successfully",newUser:a1})
+               const bcrypt=require('bcrypt');
+               const salt=await bcrypt.genSalt(10)
+               api.password=await bcrypt.hash(api.password,salt)
+              const a1= await api.save()
+               res.status(200).json({code:200,message:"User updated Successfully",newUser:a1})
               }
    }
    catch(err){
